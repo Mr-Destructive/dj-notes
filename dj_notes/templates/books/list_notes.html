@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+    <ul>
+    {% for note in book %}
+    <li><a href="{% url 'notes:noteview' note.id %}">{{ note.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

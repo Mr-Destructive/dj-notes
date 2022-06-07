@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<a href="{% url 'notebooks:create_notebook' %}"><button>Creata a Notebook</button></a>
+<ul>
+    {% for book in books %}
+    <li>
+        <h2><a href="{% url 'notebooks:notebook_view' pk=book.id %}">{{ book.name }}</a></h2>
+        <a href="{% url 'notebooks:edit_book' book.id %}">Edit</a>
+        <a href="{% url 'notebooks:delete_book' book.id %}">Delete</a>
+
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
