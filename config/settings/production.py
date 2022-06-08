@@ -16,6 +16,7 @@ DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # no
 
 # CACHES
 # ------------------------------------------------------------------------------
+"""
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -28,7 +29,7 @@ CACHES = {
         },
     }
 }
-
+"""
 # SECURITY
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-proxy-ssl-header
@@ -78,22 +79,23 @@ EMAIL_SUBJECT_PREFIX = env(
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL regex.
-ADMIN_URL = env("DJANGO_ADMIN_URL")
+# ADMIN_URL = env("DJANGO_ADMIN_URL")
 
 # Anymail
 # ------------------------------------------------------------------------------
 # https://anymail.readthedocs.io/en/stable/installation/#installing-anymail
-INSTALLED_APPS += ["anymail"]  # noqa F405
+# INSTALLED_APPS += ["anymail"]  # noqa F405
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
 # https://anymail.readthedocs.io/en/stable/esps/mailgun/
-EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+# EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+"""
 ANYMAIL = {
     "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
     "MAILGUN_SENDER_DOMAIN": env("MAILGUN_DOMAIN"),
     "MAILGUN_API_URL": env("MAILGUN_API_URL", default="https://api.mailgun.net/v3"),
 }
-
+"""
 
 # LOGGING
 # ------------------------------------------------------------------------------
