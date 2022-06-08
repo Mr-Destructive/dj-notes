@@ -1,12 +1,22 @@
+from pathlib import Path
+import os
 from .base import *  # noqa
 from .base import env
 
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["meetgor.com"])
+ALLOWED_HOSTS = env.list(
+    "DJANGO_ALLOWED_HOSTS",
+    default=[
+        "meetgor.com",
+        "127.0.0.1",
+    ],
+)
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -57,7 +67,12 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 
 # STATIC
 # ------------------------
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# STATIC_URL = "static/"
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "/static")]
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 # MEDIA
 # ------------------------------------------------------------------------------
 
