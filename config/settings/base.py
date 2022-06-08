@@ -133,7 +133,6 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -233,6 +232,7 @@ MANAGERS = ADMINS
 # https://docs.djangoproject.com/en/dev/ref/settings/#logging
 # See https://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+"""
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -251,6 +251,7 @@ LOGGING = {
     },
     "root": {"level": "INFO", "handlers": ["console"]},
 }
+"""
 
 
 # django-allauth
