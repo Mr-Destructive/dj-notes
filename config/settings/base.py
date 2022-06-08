@@ -212,10 +212,10 @@ X_FRAME_OPTIONS = "DENY"
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND",
-    default="django.core.mail.backends.smtp.EmailBackend",
-)
+# EMAIL_BACKEND = env(
+#    "DJANGO_EMAIL_BACKEND",
+#    default="django.core.mail.backends.smtp.EmailBackend",
+# )
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5
 
@@ -271,6 +271,12 @@ SOCIALACCOUNT_ADAPTER = "dj_notes.users.adapters.SocialAccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/forms.html
 SOCIALACCOUNT_FORMS = {"signup": "dj_notes.users.forms.UserSocialSignupForm"}
 
-
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env("DJANGO_EMAIL_ID")
+EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_PASSWORD")
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # Your stuff...
 # ------------------------------------------------------------------------------
