@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>{{ book.name }}</h2>
-<p>{{ book.description }}</p>
-<hr>
-<a href="{% url 'notebooks:add_note' pk=book.id %}"><button>Add Note</button></a>
+    <h2>{{ book.name }}</h2>
+    <p>{{ book.description }}</p>
+    <hr>
+    <a href="{% url 'notebooks:add_note' pk=book.id %}"><button>Add Note</button></a>
     <ul>
-    {% for note in book.notes.all %}
-    <li><a href="{% url 'notes:noteview' note.id %}">{{ note.name }}</a></li>
-    {% endfor %}
+        {% for note in book.notes.all %}
+        <li><a href="{% url 'notes:noteview' pk=note.id %}">{{ note.name }}</a></li>
+        {% endfor %}
     </ul>
 {% endblock %}

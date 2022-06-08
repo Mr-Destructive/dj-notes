@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-
+from django.core.exceptions import PermissionDenied
 from .models import Note
 from .forms import NoteForm
 
@@ -21,16 +21,37 @@ class NoteView(View):
         return context
 
 
+class NoteSecureView(LoginRequiredMixin):
+
+    model = Note
+
+    def dispatch(self, request, *args, **kwargs):
+        handler = super().dispatch(request, *args, **kwargs)
+        user = request.user
+        note = self.object
+        if not (note.author == user or user.is_superuser):
+            raise PermissionDenied
+        return handler
+
+
 class NotesListView(LoginRequiredMixin, NoteView, ListView):
     """View to list all notes."""
 
     template_name = "notes/note_list.html"
 
 
-class NoteDetailView(LoginRequiredMixin, NoteView, DetailView):
+class NoteDetailView(NoteSecureView, DetailView):
     """View to list the details from one note."""
 
     template_name = "notes/note_detail.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        handler = super().dispatch(request, *args, **kwargs)
+        user = request.user
+        note = self.object
+        if not (note.author == user or user.is_superuser):
+            raise PermissionDenied
+        return handler
 
 
 class NoteCreateView(LoginRequiredMixin, NoteView, CreateView):
@@ -45,7 +66,7 @@ class NoteCreateView(LoginRequiredMixin, NoteView, CreateView):
         return super(NoteCreateView, self).form_valid(form)
 
 
-class NoteUpdateView(LoginRequiredMixin, NoteView, UpdateView):
+class NoteUpdateView(NoteSecureView, UpdateView):
     """View to update a Note"""
 
     form_class = NoteForm
@@ -53,7 +74,7 @@ class NoteUpdateView(LoginRequiredMixin, NoteView, UpdateView):
     success_url = "/note"
 
 
-class NoteDeleteView(LoginRequiredMixin, NoteView, DeleteView):
+class NoteDeleteView(NoteSecureView, DeleteView):
     """View to delete a Note"""
 
     template_name = "notes/delete_note.html"

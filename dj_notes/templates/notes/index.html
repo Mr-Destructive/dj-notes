@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Welcome to DJ Notes</h2>
-    <a href="{% url 'account_signup' %}">Register</a>
-    <a href="{% url 'account_login' %}">Login</a>
+    <ul>
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'notes:note' %}">My Notes</a></li>
+        <li><a href="{% url 'notebooks:notebook' %}">My Books</a></li>
+    {% else %}
+    <li><a href="{% url 'account_signup' %}">Register</a></li>
+    <li><a href="{% url 'account_login' %}">Login</a></li>
+    {% endif %}
+    </ul>
 {% endblock %}

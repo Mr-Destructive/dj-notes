@@ -5,7 +5,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.core.exceptions import PermissionDenied
 
+from dj_notes.notes.models import Note
 from .models import Notebook
 from .forms import NotebookForm, AddNoteForm
 
@@ -19,13 +21,26 @@ class NotebookView(View):
         return context
 
 
+class NotebookSecureView(LoginRequiredMixin):
+
+    model = Notebook
+
+    def dispatch(self, request, *args, **kwargs):
+        handler = super().dispatch(request, *args, **kwargs)
+        user = request.user
+        notebook = self.object
+        if not (notebook.author == user or user.is_superuser):
+            raise PermissionDenied
+        return handler
+
+
 class NotebookListView(LoginRequiredMixin, NotebookView, ListView):
     """View to list all notes."""
 
     template_name = "books/book_list.html"
 
 
-class NotebookDetailView(LoginRequiredMixin, NotebookView, DetailView):
+class NotebookDetailView(NotebookSecureView, DetailView):
     """View to list the details from one note."""
 
     template_name = "books/book_detail.html"
@@ -36,7 +51,7 @@ class NotebookDetailView(LoginRequiredMixin, NotebookView, DetailView):
         return context
 
 
-class NotebookCreateView(LoginRequiredMixin, NotebookView, CreateView):
+class NotebookCreateView(NotebookSecureView, CreateView):
     """View to create Notebook"""
 
     form_class = NotebookForm
@@ -48,7 +63,7 @@ class NotebookCreateView(LoginRequiredMixin, NotebookView, CreateView):
         return super(NotebookCreateView, self).form_valid(form)
 
 
-class NotebookUpdateView(LoginRequiredMixin, NotebookView, UpdateView):
+class NotebookUpdateView(NotebookSecureView, UpdateView):
     """View to update a Notebook"""
 
     form_class = NotebookForm
@@ -56,20 +71,27 @@ class NotebookUpdateView(LoginRequiredMixin, NotebookView, UpdateView):
     success_url = "/books"
 
 
-class NotebookDeleteView(LoginRequiredMixin, NotebookView, DeleteView):
+class NotebookDeleteView(NotebookSecureView, DeleteView):
     """View to delete a Notebook"""
 
     template_name = "books/delete_book.html"
     success_url = "/books"
 
 
-class AddNote(LoginRequiredMixin, NotebookView, CreateView):
+class AddNote(NotebookSecureView, CreateView):
     """Create a Note in a Book"""
 
     form_class = AddNoteForm
     template_name = "books/create_note.html"
     success_url = "/books"
 
-    def form_valid(self, form):
+    def form_valid(self, form, **kwargs):
         form.instance.author = self.request.user
-        return super(AddNote, self).form_valid(form)
+        response = super(AddNote, self).form_valid(form)
+        book = Notebook.objects.get(id=self.kwargs["pk"])
+        new_note = Note.objects.get(id=self.object.id)
+        new_note.save()
+        book.notes.add(new_note)
+        print(book.notes.name)
+        book.save()
+        return response
