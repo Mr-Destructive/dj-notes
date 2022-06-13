@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% load blog_markdown %}
     <h1>{{ note.name }}</h1>
     <hr>
-    <p>{{ note.content }}</p>
+    <p>{{ note.content|convert_markdown|safe }}</p>
 {% endblock %}
