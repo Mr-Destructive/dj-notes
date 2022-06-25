@@ -73,6 +73,10 @@ class NoteUpdateView(NoteSecureView, UpdateView):
     template_name = "notes/edit_note.html"
     success_url = "/note"
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(NoteUpdateView, self).form_valid(form)
+
 
 class NoteDeleteView(NoteSecureView, DeleteView):
     """View to delete a Note"""

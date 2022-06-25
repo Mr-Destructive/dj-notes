@@ -17,7 +17,7 @@ class NoteForm(forms.ModelForm):
             "content": forms.Textarea(
                 attrs={
                     "class": "form-control",
-                    "style": "max-width: 300px;",
+                    "style": "max-width: 900px;",
                     "placeholder": "Content",
                 }
             ),

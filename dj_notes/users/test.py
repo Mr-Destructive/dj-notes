@@ -1,8 +1,19 @@
 from django.test import TestCase
 from .models import User
+from .views import UserUpdateView
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
 
 
 class UserTest(TestCase):
+    def setUp(self):
+        self.user_data = {"username": "test1", "email": "test1@gmail.com"}
+        user = User.objects.create(
+            username="test1",
+            email="test1@gmail.com",
+        )
+        self.user1 = user
+
     def create_user(
         self,
         username="test",
@@ -11,7 +22,7 @@ class UserTest(TestCase):
 
         return User.objects.create(
             username=username,
-            email=email,  # password1="12345678", password2="12345678"
+            email=email,
         )
 
     def test_user_creation(self):

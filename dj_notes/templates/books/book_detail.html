@@ -6,7 +6,7 @@
     <a href="{% url 'notebooks:add_note' pk=book.id %}"><button>Add Note</button></a>
     <ul>
         {% for note in book.notes.all %}
-        <li><a href="{% url 'notes:noteview' pk=note.id %}">{{ note.name }}</a></li>
+        <li><a href="{% url 'notes:note_view' pk=note.id %}">{{ note.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
