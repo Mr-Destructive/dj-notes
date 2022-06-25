@@ -11,7 +11,7 @@
 <ul>
     {% for note in notes %}
     <li>
-        <h2><a href="{% url 'notes:notev_iew' note.id %}">{{ note.name }}</a></h2>
+        <h2><a href="{% url 'notes:note_view' note.id %}">{{ note.name }}</a></h2>
         <a href="{% url 'notes:update_note' note.id %}">Edit</a>
         <a href="{% url 'notes:delete_note' note.id %}">Delete</a>
 
