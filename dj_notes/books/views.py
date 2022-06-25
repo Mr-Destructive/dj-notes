@@ -51,7 +51,7 @@ class NotebookDetailView(NotebookSecureView, DetailView):
         return context
 
 
-class NotebookCreateView(NotebookSecureView, CreateView):
+class NotebookCreateView(NotebookView, CreateView):
     """View to create Notebook"""
 
     form_class = NotebookForm
@@ -78,7 +78,7 @@ class NotebookDeleteView(NotebookSecureView, DeleteView):
     success_url = "/books"
 
 
-class AddNote(NotebookSecureView, CreateView):
+class AddNote(NotebookView, CreateView):
     """Create a Note in a Book"""
 
     form_class = AddNoteForm
@@ -92,6 +92,5 @@ class AddNote(NotebookSecureView, CreateView):
         new_note = Note.objects.get(id=self.object.id)
         new_note.save()
         book.notes.add(new_note)
-        print(book.notes.name)
         book.save()
         return response

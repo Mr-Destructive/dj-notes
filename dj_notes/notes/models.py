@@ -13,15 +13,3 @@ class Note(TimeStampedModel):
 
     def __str__(self):
         return self.name
-
-
-class Notebook(TimeStampedModel):
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    notes = models.ForeignKey(Note, on_delete=models.CASCADE)
-
-    class Meta:
-        ordering = ["-created"]
-
-    def __str__(self):
-        return self.name

@@ -1,5 +1,4 @@
 # General
 # ------------------------------------------------------------------------------
-SECRET_KEY=
 USE_DOCKER=yes
 IPYTHONDIR=/app/.ipython
