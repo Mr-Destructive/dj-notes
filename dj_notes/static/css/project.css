@@ -1,13 +1,66 @@
-/* These styles are generated from project.scss. */
+:root {
+--main-bg-color: #ffffff;
+--main-fg-color: #512D6D;
+--secondary-color: #F8485E;
+--ternary-color: #00C1D4;
+}
 
+body{
+    padding: 0;
+    margin: 0;
+}
+
+.container-fluid {
+    background-color: var(--main-fg-color);
+}
+.navbar-light .navbar-nav .nav-link {
+    color: var(--ternary-color);
+    font-weight: 900;
+}
+.navbar-light .navbar-brand{
+    font-size: 30px;
+    color: var(--secondary-color);
+}
 .alert-debug {
-  color: black;
-  background-color: white;
-  border-color: #d6e9c6;
+    color: black;
+    background-color: white;
+    border-color: #d6e9c6;
 }
 
 .alert-error {
-  color: #b94a48;
-  background-color: #f2dede;
-  border-color: #eed3d7;
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+.fa {
+    padding: 10px;
+    font-size: 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+
+.fa-linkedin{
+    background: #3B5998;
+    color: white;
+}
+
+.fa-twitter {
+    background: #55ACEE;
+    color: white;
+}
+.fa-github{
+    background: black;
+    color: white;
+}
+footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--main-fg-color);
 }
