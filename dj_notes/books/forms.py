@@ -27,6 +27,7 @@ class NotebookForm(forms.ModelForm):
                     "placeholder": "Description",
                 }
             ),
+            "notes": forms.CheckboxSelectMultiple(),
         }
 
 
@@ -46,11 +47,22 @@ class AddNoteForm(forms.ModelForm):
                     "placeholder": "Note Name",
                 }
             ),
-            "content": forms.TextInput(
+            "content": forms.Textarea(
                 attrs={
                     "class": "form-control",
-                    "style": "max-width: 300px;",
+                    "style": "max-width: 900px;",
                     "placeholder": "Content",
                 }
             ),
+        }
+
+
+class AddExistingNoteForm(forms.ModelForm):
+    class Meta:
+        model = Notebook
+        fields = [
+            "notes",
+        ]
+        widgets = {
+            "notes": forms.CheckboxSelectMultiple(),
         }

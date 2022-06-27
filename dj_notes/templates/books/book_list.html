@@ -7,12 +7,12 @@
 
 
     </button></a>
-<ul>
+    <ul class="book_list">
     {% for book in books %}
-    <li>
+    <li class="book_card">
         <h2><a href="{% url 'notebooks:notebook_view' pk=book.id %}">{{ book.name }}</a></h2>
-        <a href="{% url 'notebooks:update_book' book.id %}">Edit</a>
-        <a href="{% url 'notebooks:delete_book' book.id %}">Delete</a>
+        <a href="{% url 'notebooks:update_book' book.id %}"><span>Edit</span></a>
+        <a href="{% url 'notebooks:delete_book' book.id %}"><span>Delete</span></a>
 
     </li>
     {% endfor %}

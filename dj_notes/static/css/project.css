@@ -9,7 +9,29 @@ body{
     padding: 0;
     margin: 0;
 }
+a {
+    text-decoration: none;
+}
 
+span{
+    color: var(--main-bg-color);
+}
+
+.note_list, .book_list{
+    padding: 0;
+    margin-top: 10px;
+}
+.note_card, .book_card{
+    background-color: var(--main-fg-color);
+    list-style-type: none;
+    padding: 10px;
+}
+.note_card > h2 > a{
+    color: var(--ternary-color);
+}
+.book_card > h2> a{
+    color: var(--secondary-color);
+}
 .container-fluid {
     background-color: var(--main-fg-color);
 }
@@ -63,4 +85,8 @@ footer{
     flex-direction: column;
     justify-content: space-between;
     color: var(--main-fg-color);
+}
+
+#id_notes{
+    list-style-type: none;
 }

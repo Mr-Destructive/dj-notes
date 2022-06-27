@@ -45,14 +45,6 @@ class NoteDetailView(NoteSecureView, DetailView):
 
     template_name = "notes/note_detail.html"
 
-    def dispatch(self, request, *args, **kwargs):
-        handler = super().dispatch(request, *args, **kwargs)
-        user = request.user
-        note = self.object
-        if not (note.author == user or user.is_superuser):
-            raise PermissionDenied
-        return handler
-
 
 class NoteCreateView(LoginRequiredMixin, NoteView, CreateView):
     """View to create a new Note"""

@@ -10,4 +10,9 @@ urlpatterns = [
     path("edit/<int:pk>", views.NotebookUpdateView.as_view(), name="update_book"),
     path("delete/<int:pk>", views.NotebookDeleteView.as_view(), name="delete_book"),
     path("addnote/<int:pk>", views.AddNote.as_view(), name="add_note"),
+    path(
+        "addnote-existing/<int:pk>",
+        views.AddExistingNote.as_view(),
+        name="add_existing_note",
+    ),
 ]

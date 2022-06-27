@@ -8,14 +8,14 @@
     5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z"/>
 </svg>
     </button></a>
-<ul>
+<ul class="note_list">
     {% for note in notes %}
-    <li>
+    <li class="note_card">
         <h2><a href="{% url 'notes:note_view' note.id %}">{{ note.name }}</a></h2>
-        <a href="{% url 'notes:update_note' note.id %}">Edit</a>
-        <a href="{% url 'notes:delete_note' note.id %}">Delete</a>
-
+        <a href="{% url 'notes:update_note' note.id %}"><span>Edit</span></a>
+        <a href="{% url 'notes:delete_note' note.id %}"><span>Delete</span></a>
     </li>
+    <hr>
     {% endfor %}
 </ul>
 {% endblock %}

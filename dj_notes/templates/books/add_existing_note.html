@@ -5,7 +5,7 @@
         {% csrf_token %}
         {% for field in form.visible_fields %}
             <div class="form-group">
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <label for="{{ field.id_for_label }}">{{field.label}}</label>
                 {{ field }}
                 {% for error in field.errors %}
                     <span class="help-block" style="color:red">{{error}}</span>
@@ -13,7 +13,7 @@
             </div>
         {% endfor %}
         <div>
-            <button type="submit" class="btn btn-success">Create</button>
+            <button type="submit" class="btn btn-success">Save</button>
             <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
         </div>
     </form>

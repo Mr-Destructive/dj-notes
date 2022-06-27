@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>{{ book.name }}</h2>
+    <h2>
+        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M14 0v10l2-1.518 2 1.518v-10h4v24h-17c-1.657 0-3-1.343-3-3v-18c0-1.657 1.343-3 3-3h9zm6 20h-14.505c-1.375 0-1.375 2 0 2h14.505v-2z"/></svg>
+        {{ book.name }}
+    </h2>
     <p>{{ book.description }}</p>
     <hr>
     <a href="{% url 'notebooks:add_note' pk=book.id %}"><button>Add Note</button></a>
-    <ul>
+    <a href="{% url 'notebooks:add_existing_note' pk=book.id %}"><button>Add Existing Note</button></a>
+    <ul class="book_list">
         {% for note in book.notes.all %}
-        <li><a href="{% url 'notes:note_view' pk=note.id %}">{{ note.name }}</a></li>
+        <li class="book_card">
+            <a href="{% url 'notes:note_view' pk=note.id %}">
+                <span>{{ note.name }}</span>
+            </a>
+        </li>
         {% endfor %}
     </ul>
 {% endblock %}

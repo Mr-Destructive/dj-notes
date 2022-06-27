@@ -6,10 +6,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
+from dj_notes.users.models import User
 
 from dj_notes.notes.models import Note
 from .models import Notebook
-from .forms import NotebookForm, AddNoteForm
+from .forms import NotebookForm, AddNoteForm, AddExistingNoteForm
 
 
 class NotebookView(View):
@@ -58,6 +59,12 @@ class NotebookCreateView(NotebookView, CreateView):
     template_name = "books/create_notebook.html"
     success_url = "/books"
 
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        user = self.request.user
+        form.fields["notes"].queryset = Note.objects.filter(author=user)
+        return form
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super(NotebookCreateView, self).form_valid(form)
@@ -94,3 +101,17 @@ class AddNote(NotebookView, CreateView):
         book.notes.add(new_note)
         book.save()
         return response
+
+
+class AddExistingNote(NotebookSecureView, UpdateView):
+    """Add an existing Note in a Book"""
+
+    form_class = AddExistingNoteForm
+    template_name = "books/add_existing_note.html"
+    success_url = "/books"
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        user = self.request.user
+        form.fields["notes"].queryset = Note.objects.filter(author=user)
+        return form

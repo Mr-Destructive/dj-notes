@@ -16,14 +16,16 @@ from .views import (
     NotebookUpdateView,
     NotebookDeleteView,
     AddNote,
+    AddExistingNote,
 )
 
 
 class NotebookTest(TestCase):
     def setUp(self):
         book = {"name": "new book", "description": "description of notebook"}
+        note = {"name": "new note", "content": "content of note"}
         self.book_data = book
-        self.note_data = {"name": "new note", "content": "content of note"}
+        self.note_data = note
         author = User.objects.create(
             username="test",
             email="test@gmail.com",  # password1="12345678", password2="12345678"
@@ -34,6 +36,9 @@ class NotebookTest(TestCase):
         )
         self.author = author
         self.author2 = author2
+        self.n = Note.objects.create(
+            name=note["name"], content=note["content"], author=self.author
+        )
         self.b = Notebook.objects.create(
             name=book["name"], description=book["description"], author=self.author
         )
@@ -149,12 +154,12 @@ class NotebookTest(TestCase):
         form = NotebookForm(data=data)
         self.assertTrue(form.is_valid())
 
-    def test_book_add_note_form(self):
+    def test_add_note_form(self):
         note = self.note_data
         form = AddNoteForm(data=note)
         self.assertTrue(form.is_valid())
 
-    def test_book_add_note_view(self):
+    def test_add_note_view(self):
         data = self.book_data
         note = self.note_data
         factory = RequestFactory()
@@ -165,7 +170,24 @@ class NotebookTest(TestCase):
         )
         request.user = self.author
         response = AddNote.as_view()(request, pk=book_id, data=note)
-        note = Note.objects.last()
+        note = Note.objects.latest("created")
         book_notes = Notebook.objects.get(id=book_id).notes.all().values()
-
         self.assertTrue(book_notes.filter(id=note.id).exists())
+
+    def test_add_existing_note_view(self):
+        data = self.book_data
+        data["notes"] = self.note_data
+        factory = RequestFactory()
+        book_id = self.b.id
+        request = factory.post(
+            reverse("notebooks:add_existing_note", args=[book_id]),
+            data=data,
+        )
+        request.user = self.author
+        response = AddExistingNote.as_view()(request, pk=book_id)
+        book_notes_author = Notebook.objects.get(id=book_id).notes.values_list(
+            "author_id", flat=True
+        )
+        self.assertTrue(
+            all(author_id == self.author.id for author_id in book_notes_author)
+        )
