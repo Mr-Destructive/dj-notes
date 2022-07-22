@@ -85,7 +85,7 @@ MIDDLEWARE = [
 ]
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [str(ROOT_DIR / "dj_notes/static")]
+STATICFILES_DIRS = [str(BASE_DIR/ "dj_notes" / "static")]
 STATIC_ROOT = ROOT_DIR / "dj_notes/staticfiles"
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -98,7 +98,7 @@ MEDIA_URL = "/media/"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR , "templates")],
+        "DIRS": [os.path.join(BASE_DIR , "dj_notes", "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

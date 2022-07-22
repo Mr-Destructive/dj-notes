@@ -7,6 +7,9 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path(
+        "", TemplateView.as_view(template_name="base.html"), name="home"
+    ),
+    path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
     # Django Admin, use {% url 'admin:index' %}
