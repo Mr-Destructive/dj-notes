@@ -11,7 +11,7 @@ READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
 if READ_DOT_ENV_FILE:
     env.read_env(str(ROOT_DIR / ".env"))
 
-DEBUG = env.bool("DJANGO_DEBUG", True)
+DEBUG = True#env.bool("DJANGO_DEBUG", True)
 
 DATABASES = {"default": env.db("DATABASE_URL")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
@@ -41,6 +41,7 @@ LOCAL_APPS = [
     "dj_notes.users",
     "dj_notes.notes",
     "dj_notes.books",
+    "pwa",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -191,3 +192,45 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# pwa
+
+PWA_APP_NAME = 'DJ Notes'
+PWA_APP_DESCRIPTION = "Django Powered Note Taking App"
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/images/favicons/favicons.svg',
+        'sizes': '128x128'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/images/favicons/favicons.svg',
+        'sizes': '128x168'
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': '/static/images/favicons/favicons.ico',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
+
+CORS_REPLACE_HTTPS_REFERER      = False
+HOST_SCHEME                     = "http://"
+SECURE_PROXY_SSL_HEADER         = None
+SECURE_SSL_REDIRECT             = False
+SESSION_COOKIE_SECURE           = False
+CSRF_COOKIE_SECURE              = False
+SECURE_HSTS_SECONDS             = None
+SECURE_HSTS_INCLUDE_SUBDOMAINS  = False
+SECURE_FRAME_DENY               = False
