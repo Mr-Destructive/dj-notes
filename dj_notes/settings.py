@@ -28,6 +28,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.admin",
     "django.forms",
+    "pwa",
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
@@ -41,7 +42,7 @@ LOCAL_APPS = [
     "dj_notes.users",
     "dj_notes.notes",
     "dj_notes.books",
-    "pwa",
+    "dj_notes.utils",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -206,19 +207,19 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': '/static/images/favicons/favicons.svg',
+        'src': '/static/images/favicons/favicon.svg',
         'sizes': '128x128'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': '/static/images/favicons/favicons.svg',
+        'src': '/static/images/favicons/favicon.svg',
         'sizes': '128x168'
     }
 ]
 PWA_APP_SPLASH_SCREEN = [
     {
-        'src': '/static/images/favicons/favicons.ico',
+        'src': '/static/images/favicons/favicon.ico',
         'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
     }
 ]
