@@ -1,7 +1,6 @@
 name: DJ Notes
 on:
-  pull_request:
-    types: [closed]
+  push:
 jobs:
   repo-sync:
     if: github.event.pull_request.merged == true
