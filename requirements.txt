@@ -11,6 +11,8 @@ defusedxml==0.7.1
 Django==4.0.5
 django-allauth==0.51.0
 django-crispy-forms==1.14.0
+django-environ==0.10.0
+django-extensions==3.2.1
 django-test==0.4030
 gunicorn==20.1.0
 idna==3.3

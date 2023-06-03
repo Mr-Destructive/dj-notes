@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from datetime import datetime
 from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
+
+from dj_notes.books.models import Notebook
 from .models import Note
 from .forms import NoteForm
 
@@ -54,8 +55,25 @@ class NoteCreateView(LoginRequiredMixin, NoteView, CreateView):
     success_url = "/note"
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super(NoteCreateView, self).form_valid(form)
+        title_words = form.instance.name.split()
+        if form.instance.name.startswith('!#') and len(title_words) < 5:
+            form.instance.author = self.request.user
+            book_name = form.instance.name.split('!#')[1]
+            book = Notebook.objects.filter(author_id=self.request.user.id, name=book_name).first()
+            if book:
+                form.instance.name = datetime.now().strftime('%Y-%m-%d')
+                response = super().form_valid(form)
+                new_note = form.save(commit=False)
+                #note = super(NoteCreateView, self).form_valid(form)
+                new_note.save()
+                book.notes.add(new_note)
+                book.save()
+                return response
+            else:
+                pass
+                # Create a new book with the tag provided in the title and add the note
+        else:
+            return super(NoteCreateView, self).form_valid(form)
 
 
 class NoteUpdateView(NoteSecureView, UpdateView):

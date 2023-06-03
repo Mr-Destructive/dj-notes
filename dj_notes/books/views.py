@@ -1,12 +1,9 @@
-from django.shortcuts import render
 from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
 from django.core.exceptions import PermissionDenied
-from dj_notes.users.models import User
 
 from dj_notes.notes.models import Note
 from .models import Notebook
