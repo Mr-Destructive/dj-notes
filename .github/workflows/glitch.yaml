@@ -10,11 +10,12 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.ref }}
     - name: Sync repo
-      uses: mr-destructive/git-sync@v1
+      uses: mr-destructive/git-sync@v4.3
       env:
         SOURCE_REPO: "https://github.com/mr-destructive/dj-notes.git"
-        SOURCE_BRANCH: main
+        SOURCE_BRANCH: "main"
         DESTINATION_REPO: ${{ secrets.glitch_git_URL }}
-        DESTINATION_BRANCH: master
+        DESTINATION_BRANCH: "master"
       with:
-        args: $SOURCE_REPO $SOURCE_BRANCH $DESTINATION_REPO $DESTINATION_BRANCH
+        #args: $SOURCE_REPO $SOURCE_BRANCH $DESTINATION_REPO $DESTINATION_BRANCH
+        args: ${{ env.SOURCE_REPO }} ${{ env.SOURCE_BRANCH }} ${{ env.DESTINATION_REPO }} ${{ env.DESTINATION_BRANCH }}
