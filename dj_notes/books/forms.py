@@ -1,6 +1,8 @@
 from django import forms
-from .models import Notebook
+
 from dj_notes.notes.models import Note
+
+from .models import Notebook
 
 
 class NotebookForm(forms.ModelForm):

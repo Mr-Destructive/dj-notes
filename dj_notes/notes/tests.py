@@ -1,18 +1,19 @@
-from django.test import TestCase
-from .models import Note
-from dj_notes.users.models import User
-from django.test import RequestFactory, TestCase
-from .views import (
-    NoteCreateView,
-    NotesListView,
-    NoteDetailView,
-    NoteUpdateView,
-    NoteDeleteView,
-)
-from .forms import NoteForm
-from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
+
+from dj_notes.users.models import User
+
+from .forms import NoteForm
+from .models import Note
+from .views import (
+    NoteCreateView,
+    NoteDeleteView,
+    NoteDetailView,
+    NotesListView,
+    NoteUpdateView,
+)
 
 
 class NoteTest(TestCase):

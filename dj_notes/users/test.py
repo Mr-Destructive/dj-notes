@@ -1,8 +1,8 @@
-from django.test import TestCase
-from .models import User
-from .views import UserUpdateView
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
+
+from .models import User
+from .views import UserUpdateView
 
 
 class UserTest(TestCase):

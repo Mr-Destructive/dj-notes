@@ -1,6 +1,7 @@
 import os
-import environ
 from pathlib import Path
+
+import environ
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 BASE_DIR = ROOT_DIR / "dj_notes"
@@ -11,13 +12,13 @@ READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
 if READ_DOT_ENV_FILE:
     env.read_env(str(ROOT_DIR / ".env"))
 
-DEBUG = True#env.bool("DJANGO_DEBUG", True)
+DEBUG = True  # env.bool("DJANGO_DEBUG", True)
 
 DATABASES = {"default": env.db("DATABASE_URL")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 ROOT_URLCONF = "config.urls"
-WSGI_APPLICATION = 'dj_notes.wsgi.application'
+WSGI_APPLICATION = "dj_notes.wsgi.application"
 
 DJANGO_APPS = [
     "django.contrib.auth",
@@ -85,7 +86,7 @@ MIDDLEWARE = [
 ]
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [str(BASE_DIR/ "dj_notes" / "static")]
+STATICFILES_DIRS = [str(BASE_DIR / "dj_notes" / "static")]
 STATIC_ROOT = ROOT_DIR / "dj_notes/staticfiles"
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -98,7 +99,7 @@ MEDIA_URL = "/media/"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR , "dj_notes", "templates")],
+        "DIRS": [os.path.join(BASE_DIR, "dj_notes", "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -154,7 +155,7 @@ ALLOWED_HOSTS = env.list(
         "meetgor.com",
         "dj-notes.up.railway.app",
         "127.0.0.1",
-	"localhost:8000",
+        "localhost:8000",
     ],
 )
 
@@ -192,4 +193,3 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-

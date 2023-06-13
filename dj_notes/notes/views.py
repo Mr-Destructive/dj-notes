@@ -1,14 +1,16 @@
 from datetime import datetime
-from django.views import View
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.views import View
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
 
 from dj_notes.books.models import Notebook
-from .models import Note
+
 from .forms import NoteForm
+from .models import Note
 
 
 class NoteView(View):
@@ -56,24 +58,25 @@ class NoteCreateView(LoginRequiredMixin, NoteView, CreateView):
 
     def form_valid(self, form):
         title_words = form.instance.name.split()
-        if form.instance.name.startswith('!#') and len(title_words) < 5:
-            form.instance.author = self.request.user
-            book_name = form.instance.name.split('!#')[1]
-            book = Notebook.objects.filter(author_id=self.request.user.id, name=book_name).first()
+        form.instance.author = self.request.user
+        if form.instance.name.startswith("!#") and len(title_words) < 5:
+            book_name = form.instance.name.split("!#")[1]
+            book = Notebook.objects.filter(
+                author_id=self.request.user.id, name=book_name
+            ).first()
+            form.instance.name = datetime.now().strftime("%Y-%m-%d")
+            response = super().form_valid(form)
+            new_note = form.save(commit=False)
+            new_note.save()
             if book:
-                form.instance.name = datetime.now().strftime('%Y-%m-%d')
-                response = super().form_valid(form)
-                new_note = form.save(commit=False)
-                #note = super(NoteCreateView, self).form_valid(form)
-                new_note.save()
                 book.notes.add(new_note)
-                book.save()
-                return response
             else:
-                pass
-                # Create a new book with the tag provided in the title and add the note
+                book = Notebook.objects.create(name=book_name, author=self.request.user)
+            book.notes.add(new_note)
+            book.save()
+            return response
         else:
-            return super(NoteCreateView, self).form_valid(form)
+            return super().form_valid(form)
 
 
 class NoteUpdateView(NoteSecureView, UpdateView):
@@ -85,7 +88,7 @@ class NoteUpdateView(NoteSecureView, UpdateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super(NoteUpdateView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class NoteDeleteView(NoteSecureView, DeleteView):

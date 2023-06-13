@@ -1,8 +1,10 @@
-from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.db import models
+
+from dj_notes.notes.models import Note
 from dj_notes.users.models import User
 from dj_notes.utils.models import TimeStampedModel
-from dj_notes.notes.models import Note
+
 
 class Tag(TimeStampedModel):
     name = models.CharField(max_length=128)
@@ -10,6 +12,7 @@ class Tag(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
 
 class Notebook(TimeStampedModel):
     name = models.CharField(max_length=255)
@@ -24,10 +27,10 @@ class Notebook(TimeStampedModel):
         null=True,
     )
     tags = models.ManyToManyField(
-            Tag,
-            related_name="booktags",
-            blank=True,
-            null=True,
+        Tag,
+        related_name="booktags",
+        blank=True,
+        null=True,
     )
 
     class Meta:
@@ -35,4 +38,3 @@ class Notebook(TimeStampedModel):
 
     def __str__(self):
         return self.name
-

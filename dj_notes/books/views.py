@@ -1,13 +1,14 @@
-from django.views import View
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.views import View
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
 
 from dj_notes.notes.models import Note
+
+from .forms import AddExistingNoteForm, AddNoteForm, NotebookForm
 from .models import Notebook
-from .forms import NotebookForm, AddNoteForm, AddExistingNoteForm
 
 
 class NotebookView(View):
@@ -64,7 +65,7 @@ class NotebookCreateView(NotebookView, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super(NotebookCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class NotebookUpdateView(NotebookSecureView, UpdateView):
@@ -91,7 +92,7 @@ class AddNote(NotebookView, CreateView):
 
     def form_valid(self, form, **kwargs):
         form.instance.author = self.request.user
-        response = super(AddNote, self).form_valid(form)
+        response = super().form_valid(form)
         book = Notebook.objects.get(id=self.kwargs["pk"])
         new_note = Note.objects.get(id=self.object.id)
         new_note.save()

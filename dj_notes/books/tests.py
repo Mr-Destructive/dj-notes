@@ -1,22 +1,23 @@
-from django.test import TestCase
-from dj_notes.notes.models import Note
-from dj_notes.notes.views import NoteCreateView
-from dj_notes.notes.forms import NoteForm
-from dj_notes.users.models import User
-from django.test import RequestFactory, TestCase
-from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
+from django.test import RequestFactory, TestCase
+from django.urls import reverse
+
+from dj_notes.notes.forms import NoteForm
+from dj_notes.notes.models import Note
+from dj_notes.notes.views import NoteCreateView
+from dj_notes.users.models import User
+
+from .forms import AddNoteForm, NotebookForm
 from .models import Notebook
-from .forms import NotebookForm, AddNoteForm
 from .views import (
-    NotebookCreateView,
-    NotebookListView,
-    NotebookDetailView,
-    NotebookUpdateView,
-    NotebookDeleteView,
-    AddNote,
     AddExistingNote,
+    AddNote,
+    NotebookCreateView,
+    NotebookDeleteView,
+    NotebookDetailView,
+    NotebookListView,
+    NotebookUpdateView,
 )
 
 
