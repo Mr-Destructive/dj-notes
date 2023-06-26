@@ -2,12 +2,14 @@ from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import render
 from django.views import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
 from dj_notes.books.models import Notebook
+from dj_notes.notes.templatetags.blog_markdown import convert_markdown
 
 from .forms import NoteForm
 from .models import Note
@@ -96,3 +98,14 @@ class NoteDeleteView(NoteSecureView, DeleteView):
 
     template_name = "notes/delete_note.html"
     success_url = "/note"
+
+
+def note_preview(request):
+    if request.method == "POST":
+        markdown_content = request.POST.get("content")
+        rendered_content = convert_markdown(markdown_content)
+        print(rendered_content)
+        context = {"preview": rendered_content}
+        return render(request, "notes/partials/preview.html", context)
+    else:
+        return render(request, "notes/partials/preview.html", {})
