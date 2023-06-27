@@ -1,0 +1,26 @@
+<div class="container pt-5">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+        <div hx-target="#preview"  class="form-group">
+          {% if field.label == 'Content' %}
+            {% csrf_token %}
+            <label for="{{ field.id_for_label }}">{{field.label}}</label>
+            <textarea name="content" cols="40" rows="10" class="form-control" style="max-width: 900px;" placeholder="{{field.value}}" required="" id="id_content" hx-post="{% url 'notes:note_preview'%}" >{{field.value}} </textarea>
+          <div id="preview">
+          </div>
+          {% else %}
+          <label for="{{ field.id_for_label }}">{{field.label}}</label>
+            {{field}}
+          {% for error in field.errors %}
+            <span class="help-block" style="color:red">{{error}}</span>
+          {% endfor %}
+          {% endif %}
+        </div>
+        {% endfor %}
+        <div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+</div>
