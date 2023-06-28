@@ -1,0 +1,21 @@
+<ul class="note_list" hx-target='this'>
+    {% for todo in todos %}
+    <li class="note_card">
+      <form >
+        {% csrf_token %}
+        <input type='checkbox' name='completed' id='completed' {% if todo.completed %}checked{% endif %} hx-post="{% url 'todos:update_todo' todo.id %}" />
+      </form>
+        <h2><a href="{% url 'todos:todo_view' todo.id %}" {% if todo.completed %}class='checked'{% endif %} >{{ todo.title }}</a></h2>
+        <p class="">{{ todo.created }}</p>
+        <a href="{% url 'todos:update_todo' todo.id %}"><span>Edit</span></a>
+        <a href="{% url 'todos:delete_todo' todo.id %}"><span>Delete</span></a>
+    </li>
+    <hr>
+    {% endfor %}
+</ul>
+
+<style>
+    .checked{
+      text-decoration: line-through;
+    }
+</style>

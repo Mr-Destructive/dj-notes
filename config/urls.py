@@ -17,6 +17,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("note/", include("dj_notes.notes.urls")),
     path("books/", include("dj_notes.books.urls")),
+    path("todos/", include("dj_notes.todos.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

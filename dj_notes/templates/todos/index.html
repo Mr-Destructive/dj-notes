@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Welcome to DJ Notes</h2>
+    <ul>
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'todos:todos' %}">My Todos</a></li>
+    {% else %}
+    <li><a href="{% url 'account_signup' %}">Register</a></li>
+    <li><a href="{% url 'account_login' %}">Login</a></li>
+    {% endif %}
+    </ul>
+{% endblock %}

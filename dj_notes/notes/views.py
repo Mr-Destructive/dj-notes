@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,6 +11,7 @@ from django.views.generic.list import ListView
 
 from dj_notes.books.models import Notebook
 from dj_notes.notes.templatetags.blog_markdown import convert_markdown
+from dj_notes.todos.models import Todo
 
 from .forms import NoteForm
 from .models import Note
@@ -77,6 +79,15 @@ class NoteCreateView(LoginRequiredMixin, NoteView, CreateView):
             book.notes.add(new_note)
             book.save()
             return response
+        pattern = re.compile(r'- \[(x|)\] (.*)')
+        matches = pattern.finditer(form.instance.content)
+        for match in matches:
+            completed = bool(match.group(1))
+            task = match.group(2).strip()
+            todos = Todo.objects.filter(title=task, completed=False, author_id=self.request.user.id)
+            if todos.count() == 0:
+                Todo.objects.create(title=task, completed=completed, author_id=self.request.user.id)
+            return super().form_valid(form)
         else:
             return super().form_valid(form)
 
@@ -90,6 +101,14 @@ class NoteUpdateView(NoteSecureView, UpdateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        pattern = re.compile(r'- \[(x|)\] (.*)\r')
+        matches = pattern.finditer(form.instance.content)
+        for match in matches:
+            completed = bool(match.group(1))
+            task = match.group(2).strip()
+            todos = Todo.objects.filter(title=task, completed=False, author_id=self.request.user.id)
+            if todos.count() == 0:
+                Todo.objects.create(title=task, completed=completed, author_id=self.request.user.id)
         return super().form_valid(form)
 
 

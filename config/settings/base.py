@@ -77,6 +77,7 @@ LOCAL_APPS = [
     "dj_notes.users",
     "dj_notes.notes",
     "dj_notes.books",
+    "dj_notes.todos",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
