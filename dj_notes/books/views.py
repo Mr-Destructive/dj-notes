@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
-from dj_notes.notes.models import Note
+from dj_notes.notes.models import Note, Tag
 
 from .forms import AddExistingNoteForm, AddNoteForm, NotebookForm
 from .models import Notebook
@@ -17,6 +17,7 @@ class NotebookView(View):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["books"] = Notebook.objects.filter(author=self.request.user).all()
+        context["tags"] = Tag.objects.filter(user=self.request.user).all()
         return context
 
 
@@ -61,6 +62,7 @@ class NotebookCreateView(NotebookView, CreateView):
         form = super().get_form(*args, **kwargs)
         user = self.request.user
         form.fields["notes"].queryset = Note.objects.filter(author=user)
+        form.fields["tags"].queryset = Tag.objects.filter(user=user)
         return form
 
     def form_valid(self, form):

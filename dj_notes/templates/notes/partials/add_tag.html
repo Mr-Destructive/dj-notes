@@ -1,0 +1,5 @@
+<form hx-post="{% url 'notes:create_tag' %}" >
+  {% csrf_token %}
+  {{ form }}
+  <input type='submit' value='Add' />
+</form>

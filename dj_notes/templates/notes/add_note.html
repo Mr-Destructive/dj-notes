@@ -25,5 +25,6 @@
             <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
         </div>
     </form>
+    <button type='submit'hx-target='this' hx-swap='outerHTML' hx-trigger='click' hx-get="{% url 'notes:create_tag' %}"> Add Tag</button>
 </div>
 {% endblock %}

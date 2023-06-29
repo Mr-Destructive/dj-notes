@@ -12,7 +12,6 @@ class NotebookForm(forms.ModelForm):
             "created",
             "updated",
             "author",
-            # "notes",
         )
         widgets = {
             "name": forms.TextInput(
@@ -30,6 +29,7 @@ class NotebookForm(forms.ModelForm):
                 }
             ),
             "notes": forms.CheckboxSelectMultiple(),
+            "tags": forms.CheckboxSelectMultiple(),
         }
 
 
@@ -56,6 +56,7 @@ class AddNoteForm(forms.ModelForm):
                     "placeholder": "Content",
                 }
             ),
+            "tags": forms.CheckboxSelectMultiple(),
         }
 
 

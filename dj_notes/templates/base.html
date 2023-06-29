@@ -99,6 +99,17 @@
 
       {% block content %}
         <a href="{% url 'notes:create_note' %}"><button class="btn">Create Notes</button></a>
+        <a href="{% url 'todos:create_todo' %}"><button class="btn">Create Todo</button></a>
+        {% if user.is_authenticated %}
+        <h2>Today</h2>
+        {% if not todos %}
+          <p>No Todos for Today, All Done!</p>
+        {% else %}
+          {% include "todos/partials/list.html" %}
+        {% endif %}
+        {% include "notes/partials/list.html" %}
+        {% endif %}
+
       {% endblock content %}
 
     </div> <!-- /container -->

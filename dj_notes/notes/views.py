@@ -4,6 +4,7 @@ from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -13,8 +14,8 @@ from dj_notes.books.models import Notebook
 from dj_notes.notes.templatetags.blog_markdown import convert_markdown
 from dj_notes.todos.models import Todo
 
-from .forms import NoteForm
-from .models import Note
+from .forms import NoteForm, TagForm
+from .models import Note, Tag
 
 
 class NoteView(View):
@@ -59,6 +60,11 @@ class NoteCreateView(LoginRequiredMixin, NoteView, CreateView):
     form_class = NoteForm
     template_name = "notes/add_note.html"
     success_url = "/note"
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        form.fields["tags"].queryset = Tag.objects.filter(user=self.request.user)
+        return form
 
     def form_valid(self, form):
         title_words = form.instance.name.split()
@@ -128,3 +134,23 @@ def note_preview(request):
         return render(request, "notes/partials/preview.html", context)
     else:
         return render(request, "notes/partials/preview.html", {})
+
+
+class TagView(View):
+    model = Tag
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class TagCreateView(LoginRequiredMixin, TagView, CreateView):
+    """View to add a tag to a Tag."""
+
+    form_class = TagForm
+    template_name = "notes/partials/add_tag.html"
+    success_url = "/"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)

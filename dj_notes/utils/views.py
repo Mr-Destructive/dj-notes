@@ -1,8 +1,17 @@
+import datetime
 from django.http import HttpResponse
 from django.shortcuts import render
+from dj_notes.notes.models import Note
 
+from dj_notes.todos.models import Todo
 from . import app_settings
 
+
+def index(request):
+    context = {}
+    context["todos"] = Todo.objects.filter(author=request.user, created=datetime.date.today())
+    context["notes"] = Note.objects.filter(author=request.user, created=datetime.date.today())
+    return render(request, "base.html", context)
 
 def service_worker(request):
     response = HttpResponse(

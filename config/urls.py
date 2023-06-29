@@ -5,8 +5,10 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
+from dj_notes.utils.views import index
+
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="base.html"), name="home"),
+    path("", index, name="home"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),

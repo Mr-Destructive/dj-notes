@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Note
+from .models import Note, Tag
 
 
 class NoteForm(forms.ModelForm):
@@ -20,6 +20,21 @@ class NoteForm(forms.ModelForm):
                     "class": "form-control",
                     "style": "max-width: 900px;",
                     "placeholder": "Content",
+                }
+            ),
+            "tags": forms.CheckboxSelectMultiple(),
+        }
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        exclude = ("description", "created", "updated", "user")
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "style": "max-width: 300px;",
+                    "placeholder": "Tag Name",
                 }
             ),
         }

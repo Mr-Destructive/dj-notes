@@ -1,0 +1,10 @@
+<ul class="note_list">
+    {% for note in notes %}
+    <li class="note_card">
+        <h2><a href="{% url 'notes:note_view' note.id %}">{{ note.name }}</a></h2>
+        <a href="{% url 'notes:update_note' note.id %}"><span>Edit</span></a>
+        <a href="{% url 'notes:delete_note' note.id %}"><span>Delete</span></a>
+    </li>
+    <hr>
+    {% endfor %}
+</ul>
