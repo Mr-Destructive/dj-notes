@@ -1,10 +1,6 @@
 """
 Base settings to build other settings files upon.
 """
-import django_stubs_ext
-
-django_stubs_ext.monkeypatch()
-
 from pathlib import Path
 
 import environ

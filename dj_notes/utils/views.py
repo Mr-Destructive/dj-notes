@@ -8,9 +8,10 @@ from . import app_settings
 
 
 def index(request):
-    context = {}
-    context["todos"] = Todo.objects.filter(author=request.user, created=datetime.date.today())
-    context["notes"] = Note.objects.filter(author=request.user, created=datetime.date.today())
+    context = {"notes": [], "todos": []}
+    if request.user.is_authenticated:
+        context["todos"] = Todo.objects.filter(author=request.user, created=datetime.date.today())
+        context["notes"] = Note.objects.filter(author=request.user, created=datetime.date.today())
     return render(request, "base.html", context)
 
 def service_worker(request):
